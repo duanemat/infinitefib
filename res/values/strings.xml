@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">scrollfib</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="fib_num">N/A</string>
+    <string name="fib_val">No Value</string>
+
+</resources>
