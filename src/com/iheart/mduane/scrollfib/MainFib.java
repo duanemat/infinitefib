@@ -183,7 +183,7 @@ public class MainFib extends Activity implements FibListView.FibListener{
 		// Get the last key and make sure we also have n-1 as well.  If not, start from the bottom
 		int lastKey = keyList.get(keyList.size()-1);
 		if(keyList.get(keyList.size()-2) == lastKey-1){
-			initialPoints[2] = BigInteger.valueOf(lastKey); // Initial index
+			initialPoints[2] = BigInteger.valueOf(lastKey).add(BigInteger.ONE); // Initial index
 			initialPoints[1] = fibMap.get(lastKey); // relates to prev
 			initialPoints[0] = fibMap.get(lastKey-1); // relates to prevPrev
 		}else{
