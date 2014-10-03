@@ -18,20 +18,30 @@ public class FibAdapter extends BaseAdapter {
 	private final Activity context;
 	private static Map fibMap;
 
-	// Use as a proxy for the fields in the list item view.  Improves overall feel of the scrolling.
+	/**
+	 * Use as a proxy for the fields in the list item view.  Improves overall feel of the scrolling.
+	 * 
+	 */
 	static class ViewHolder{
 		public TextView fibNumber;
 		public TextView fibValue;        
 	}
 
 
-	// Default constructor
+	/**
+	 * Default constructor
+	 * @param context
+	 */
 	public FibAdapter(Activity context){
 		this.context = context;
 		this.fibMap = new HashMap<Integer, BigInteger>();
 	}
 	
-	// Constructor with link to values
+	/**
+	 * Constructor with link to values
+	 * @param context
+	 * @param values to start with
+	 */
 	public FibAdapter(Activity context, Map values){
 		this.context = context;
 		this.fibMap = values;
@@ -86,7 +96,10 @@ public class FibAdapter extends BaseAdapter {
 		return rowView;
 	}
 	
-	// Add the new data to the map.  This will retain the old data so that we don't to reload the whole data set each time.
+	/**
+	 * Add the new data to the map.  This will retain the old data so that we don't to reload the whole data set each time.
+	 * @param values to add
+	 */
 	public void addData(Map values){
 		this.fibMap.putAll(values);
 	}

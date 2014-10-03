@@ -41,7 +41,9 @@ public class FibListView extends ListView implements OnScrollListener {
 	}
 		
 
-	// Handle the current scrolling state for the view
+	/**
+	 * Handle the current scrolling state for the view
+	 */
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 		
@@ -70,7 +72,10 @@ public class FibListView extends ListView implements OnScrollListener {
 	public void onScrollStateChanged(AbsListView view, int scrollState) {		
 	}
 	
-	// Set the loading view when adding data
+	/**
+	 * Set the loading view when adding data
+	 * @param resourceId
+	 */
 	public void setLoadingView(int resourceId){
 		// Get the inflater if you need it
 		if(inflater == null){
@@ -80,14 +85,20 @@ public class FibListView extends ListView implements OnScrollListener {
 		this.addFooterView(footer);
 	}
 	
-	// Set the adapter for this LsitView
+	/**
+	 * Set the adapter for this LsitView
+	 * @param adapter to set for view
+	 */
 	public void setAdapter(FibAdapter adapter) {		
 		super.setAdapter(adapter);
 		this.fibAdapter = adapter;
 		this.removeFooterView(footer);
 	}
 	
-	// Notify the adapter about the change of data
+	/**
+	 * Notify the adapter about the change of data
+	 * @param values to add
+	 */
 	public void addFibSequence(Map values){
 		this.removeFooterView(footer);
 		fibAdapter.addData(values);
@@ -95,7 +106,10 @@ public class FibListView extends ListView implements OnScrollListener {
 		isLoading = false;
 	}
 	
-	// Get the listener
+	/**
+	 * Get the listener
+	 * @return FibListener reference
+	 */
 	public FibListener getListener(){
 		return this.fibListener;
 	}
