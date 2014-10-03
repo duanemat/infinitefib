@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 
 public class MainFib extends Activity implements FibListView.FibListener{
@@ -64,10 +65,16 @@ public class MainFib extends Activity implements FibListView.FibListener{
 
 			// Retrieve the nextRange, as this will recursively go back and acquire them.
 			// If we have an empty list, then get the first 50.  Else get the next expected range
-			if(fibMap.size() == 0)
-				getFib(NUMBER_INITIAL_VALUES);
-			else
-				getFib(nextRange);
+			try{
+				if(fibMap.size() == 0)
+					getFibIter(NUMBER_INITIAL_VALUES);
+				else
+					getFibIter(nextRange);
+			}catch (Exception e){
+				e.printStackTrace();
+				Log.e(TAG, "We had an error b/c " + e.getMessage());
+				Toast.makeText(getApplicationContext(), "Looks like we've hit the upper limit of this little device's computing power.  Isn't this Fibonacci long enough for you?", Toast.LENGTH_SHORT).show();
+			}
 
 			return fibMap;
 		}
@@ -82,7 +89,8 @@ public class MainFib extends Activity implements FibListView.FibListener{
 			// (they are stored in the adapter)
 
 			Log.i(TAG, "FibMap Size = " + fibMap.size());
-			ArrayList<Integer> keys = new ArrayList<Integer>(results.keySet());
+			// Efficiency improvement. 
+			/*ArrayList<Integer> keys = new ArrayList<Integer>(results.keySet());
 			Collections.sort(keys);
 			Integer lastKey = keys.get(keys.size()-1);
 			Integer lastKey2 = keys.get(keys.size()-2);
@@ -90,15 +98,63 @@ public class MainFib extends Activity implements FibListView.FibListener{
 			BigInteger lastValue2 = fibMap.get(lastKey2);
 			//fibMap.clear();
 			//fibMap.put(lastKey, lastValue);
-			//fibMap.put(lastKey2, lastValue2);
-			
+			//fibMap.put(lastKey2, lastValue2);			 
+			 */
+
 
 		}
 
 
 	}
 
-	private static BigInteger getFib(Integer position){
+	/**
+	 * Iterative call for Fibonacci.  This seems to be more efficient because we are not creating bigger stacks on each recursive call.
+	 * @param position - value to computer
+	 * @return Fibonacci value
+	 */
+	private static BigInteger getFibIter(Integer position){
+		
+		// If less than 0 for some reason we are returning 0;
+		if(position < 0)
+			return BigInteger.ZERO;
+		
+		// If map doesn't exist
+		if(fibMap == null)
+			fibMap = new HashMap<Integer, BigInteger>();
+		
+		// Base cases plus some history
+		if(position == 0) {			
+			return BigInteger.ZERO;
+		}
+		if(position == 1){			
+			return BigInteger.ONE;
+		}
+		
+		// If we've already computed it, return that value
+		if(fibMap.containsKey(position))
+			return fibMap.get(position);
+		
+		BigInteger prevPrev = BigInteger.ZERO;
+		BigInteger prev = BigInteger.ONE;
+		
+		// Base cases in the map
+		fibMap.put(0, BigInteger.ZERO);
+		fibMap.put(1, BigInteger.ONE);
+		
+		BigInteger result = BigInteger.ZERO;
+		
+		for(int i=2; i<position; i++){
+			result = prev.add(prevPrev);
+			fibMap.put(i, result);
+			prevPrev = prev;
+			prev = result;
+		}
+				
+		return result;
+		
+	}
+	
+	private static BigInteger getFib(Integer position) throws Exception{
 
 
 		// Handle the possibility of the list being null.  If so, create it
@@ -111,7 +167,7 @@ public class MainFib extends Activity implements FibListView.FibListener{
 			return BigInteger.ZERO;
 		}
 
-		// If we already computed it, just return that value.
+		// If we already computed it, just return that value.		
 		if(fibMap.containsKey(position))
 			return (BigInteger) fibMap.get(position);
 
@@ -125,9 +181,9 @@ public class MainFib extends Activity implements FibListView.FibListener{
 			return BigInteger.ONE;
 		}
 		else{
-			// Recursive call
+			// Recursive call			
 			fibMap.put(position, getFib(position-2).add(getFib(position-1)));
-			return (BigInteger) fibMap.get(position);
+			return (BigInteger) fibMap.get(position);			
 		}
 	}
 }
