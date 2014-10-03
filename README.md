@@ -1,7 +1,6 @@
-iheartscroller
+Infinite Fibonacci Scroller in Android
 ==============
 
-iHeart Radio scroller
 
 # Simple Breadkown
 This is a simple infinitely-scrollable Fibonacci sequence app.  I initially used a recursive Fibonacci algorithm but then determined that created a heavy bit of stack overhead and could lead to memory issues.  So I switched to iterative with some optimization for already-computed values.
